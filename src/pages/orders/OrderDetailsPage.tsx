@@ -126,6 +126,22 @@ const OrderDetailsPage = () => {
             <Typography>Yes</Typography>
           </Stack>
         )}
+        {order?.UsedVoucherAmount !== undefined && (
+          <Stack direction="row" spacing={1}>
+            <Typography color="primary" sx={{ fontWeight: "bold" }}>
+              Used Voucher Amount:{" "}
+            </Typography>
+            <Typography>{order.UsedVoucherAmount} AED</Typography>
+          </Stack>
+        )}
+        {order?.deliveryFee !== undefined && (
+          <Stack direction="row" spacing={1}>
+            <Typography color="primary" sx={{ fontWeight: "bold" }}>
+              Delivery Fee:{" "}
+            </Typography>
+            <Typography>{order.deliveryFee} AED</Typography>
+          </Stack>
+        )}
         <Stack direction="row" spacing={1}>
           <Typography color="primary" sx={{ fontWeight: "bold" }}>
             Total Amount:{" "}

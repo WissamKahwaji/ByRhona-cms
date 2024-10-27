@@ -24,6 +24,10 @@ import CollectionsListPage from "./pages/collections/CollectionsListPage";
 import AddEditCollectionPage from "./pages/collections/AddEditCollectionPage";
 import CollectionProductsPage from "./pages/collections/CollectionProductsPage";
 import AddProductsToCollectionPage from "./pages/collections/AddProductsToCollectionPage";
+import LogoPage from "./pages/logo/LogoPage";
+import SlidersPage from "./pages/sliders/SlidersPage";
+import EditSliderPage from "./pages/sliders/EditSliderPage";
+import DeliveryFeePage from "./pages/delivery_fee/DeliveryFeePage";
 
 const Routes = () => {
   const routes = createBrowserRouter(
@@ -68,6 +72,10 @@ const Routes = () => {
             path="collections/:id/edit"
             element={<AddEditCollectionPage />}
           />
+          <Route path="logo" element={<LogoPage />} />
+          <Route path="sliders" element={<SlidersPage />} />
+          <Route path="sliders/:sliderId/edit" element={<EditSliderPage />} />
+          <Route path="fees" element={<DeliveryFeePage />} />
         </Route>
         <Route path="/sign-in" element={<SignInPage />} />
       </Route>

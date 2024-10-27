@@ -7,6 +7,7 @@ export type OrderModel = {
   createdAt: string;
   paymentMethod: "cash" | "card";
   isUseVoucher?: boolean;
+  UsedVoucherAmount?: number;
   updatedAt: string;
   userBuilding: string;
   userId: string;
@@ -16,6 +17,7 @@ export type OrderModel = {
   userStreet: string;
   userUnitNo?: string;
   userFloorNo?: string;
+  deliveryFee?: number;
   _id: string;
 };
 export type CartItem = {

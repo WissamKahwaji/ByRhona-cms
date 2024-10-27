@@ -55,6 +55,20 @@ const COLLECTION = {
     `/collections/remove-products-from-collection/${id}`,
 };
 
+const LOGO = {
+  GET: "/logo",
+  EDIT: "/logo/edit",
+};
+
+const SLIDER = {
+  GET: "/sliders",
+  EDIT_SLIDER: (sliderId: string) => `/sliders/edit/${sliderId}`,
+};
+const FEE = {
+  GET: "/deliveryFee",
+  EDIT_Fee: "/deliveryFee/edit",
+};
+
 const API_ROUTES = {
   AUTH,
   CONTACT_US,
@@ -64,6 +78,9 @@ const API_ROUTES = {
   PRODUCT,
   ORDERS,
   COLLECTION,
+  LOGO,
+  SLIDER,
+  FEE,
 };
 
 export default API_ROUTES;

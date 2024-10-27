@@ -4,6 +4,9 @@ import LayersIcon from "@mui/icons-material/Layers";
 import CategoryIcon from "@mui/icons-material/Category";
 import InfoIcon from "@mui/icons-material/Info";
 import ContactPhoneIcon from "@mui/icons-material/ContactPhone";
+import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
+import WebStoriesIcon from "@mui/icons-material/WebStories";
+import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
 
 const NAV_LINKS = [
   {
@@ -35,6 +38,21 @@ const NAV_LINKS = [
     name: "contacts",
     href: "/contacts",
     icon: ContactPhoneIcon,
+  },
+  {
+    name: "logo",
+    href: "/logo",
+    icon: InsertPhotoIcon,
+  },
+  {
+    name: "sliders",
+    href: "/sliders",
+    icon: WebStoriesIcon,
+  },
+  {
+    name: "fees",
+    href: "/fees",
+    icon: RequestQuoteIcon,
   },
 ];
 

@@ -28,7 +28,7 @@ export type Product = {
 export type ProductInputProps = {
   _id?: string;
   img?: File;
-  imgs?: File[];
+  imgs?: string[];
   videos?: File[];
   title: string;
   titleFr: string;
@@ -46,6 +46,6 @@ export type ProductInputProps = {
     priceAED: number;
     priceUSD: number;
   };
-
+  removeProductsImages?: string[];
   productQuantity?: number;
 };

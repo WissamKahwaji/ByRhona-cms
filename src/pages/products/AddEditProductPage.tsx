@@ -11,10 +11,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Form, Formik, FormikHelpers } from "formik";
+import { FieldArray, Form, Formik, FormikHelpers } from "formik";
 import { useParams } from "react-router-dom";
 import { ProductInputProps } from "../../apis/product/type";
-import { useGetCategoriesDataInfoQuery } from "../../apis/categories/queries";
+// import { useGetCategoriesDataInfoQuery } from "../../apis/categories/queries";
 import LoadingPage from "../loading-page/LoadingPage";
 import { useEffect, useState } from "react";
 import LoadingButton from "../../components/items/loadingButtons/LoadingButtons";
@@ -24,29 +24,42 @@ import {
   useEditProductMutation,
   useGetProductByIdInfoQuery,
 } from "../../apis/product/queries";
+import { useGetDepartmentsInfoQuery } from "../../apis/departments/queries";
+import { DepartmentModel } from "../../apis/departments/type";
 
 const AddEditProductPage = () => {
   const { id } = useParams<{ id: string }>();
   const {
-    data: categories,
+    data: departmentsInfo,
     isError,
     isFetching,
-  } = useGetCategoriesDataInfoQuery();
+  } = useGetDepartmentsInfoQuery();
+  // const {
+  //   data: categories,
+  //   isError,
+  //   isFetching,
+  // } = useGetCategoriesDataInfoQuery();
   const { data: productInfo } = useGetProductByIdInfoQuery(id);
   const { mutate: addProduct } = useAddProductMutation();
   const { mutate: editProduct } = useEditProductMutation();
 
+  const [selectedDep, setSelectedDep] = useState<DepartmentModel>();
   const [selectedCat, setSelectedCat] = useState<string>();
 
   useEffect(() => {
     if (!id) {
-      if (categories) {
-        setSelectedCat(categories[0]._id);
+      if (departmentsInfo) {
+        setSelectedDep(departmentsInfo[0]);
+        setSelectedCat(
+          departmentsInfo &&
+            departmentsInfo[0].categories &&
+            departmentsInfo[0].categories[0]._id
+        );
       }
     } else {
       setSelectedCat(productInfo?.category._id);
     }
-  }, [categories, id, productInfo?.category._id]);
+  }, [departmentsInfo, id, productInfo?.category._id]);
 
   const initialValues: ProductInputProps = {
     ...(id && { _id: id }),
@@ -57,6 +70,7 @@ const AddEditProductPage = () => {
     descAr: productInfo?.descAr || "",
     descFr: productInfo?.descFr || "",
     category: productInfo?.category._id || "",
+    imgs: productInfo?.imgs || [],
     ...(id && {
       price: {
         priceAED: productInfo?.price.priceAED ?? 0,
@@ -74,6 +88,9 @@ const AddEditProductPage = () => {
         priceAED: productInfo?.priceAfterOffer?.priceAED ?? 0,
         priceUSD: productInfo?.priceAfterOffer?.priceUSD ?? 0,
       },
+    }),
+    ...(id && {
+      removeProductsImages: [],
     }),
   };
   const handleSubmit = (
@@ -135,6 +152,39 @@ const AddEditProductPage = () => {
                     alignItems="center"
                   >
                     <FormLabel sx={{ fontSize: "14px" }}>
+                      Departments:
+                    </FormLabel>
+                    <Select
+                      value={selectedDep?._id}
+                      displayEmpty
+                      inputProps={{ "aria-label": "Select city" }}
+                      onChange={e =>
+                        setSelectedDep(
+                          departmentsInfo?.find(
+                            dep => dep._id === e.target.value
+                          )
+                        )
+                      }
+                      sx={{ width: "85%", direction: "ltr" }}
+                    >
+                      {departmentsInfo?.map((item, index) => (
+                        <MenuItem key={index} value={item._id}>
+                          {item.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </Stack>
+                </Grid2>
+              )}
+              {!id && (
+                <Grid2 size={{ xs: 12, lg: 6 }}>
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    justifyItems="center"
+                    alignItems="center"
+                  >
+                    <FormLabel sx={{ fontSize: "14px" }}>
                       Categories :
                     </FormLabel>
                     <Select
@@ -147,7 +197,7 @@ const AddEditProductPage = () => {
                       }}
                       sx={{ width: "85%", direction: "ltr" }}
                     >
-                      {categories?.map((category, index) => (
+                      {selectedDep?.categories?.map((category, index) => (
                         <MenuItem key={index} value={category._id}>
                           {category.name}
                         </MenuItem>
@@ -341,6 +391,79 @@ const AddEditProductPage = () => {
                 />
               </Grid2>
               <Grid2 size={{ xs: 12 }}>
+                <FieldArray name="imgs">
+                  {({ push, remove }) => (
+                    <>
+                      <Typography variant="h6">product images</Typography>
+                      <Grid2 container spacing={2}>
+                        {values.imgs &&
+                          values.imgs.map((image, index) => (
+                            <Grid2 size={{ xs: 12, sm: 6, md: 4 }} key={index}>
+                              <Box sx={{ position: "relative" }}>
+                                <img
+                                  src={
+                                    typeof image === "string"
+                                      ? image
+                                      : URL.createObjectURL(image)
+                                  }
+                                  alt={`product ${index}`}
+                                  style={{
+                                    width: "100px",
+                                    height: "100px",
+                                  }}
+                                  crossOrigin="anonymous"
+                                />
+                                <Button
+                                  variant="outlined"
+                                  color="error"
+                                  onClick={() => {
+                                    remove(index);
+                                    setFieldValue("removeProductsImages", [
+                                      ...values.removeProductsImages!,
+                                      image,
+                                    ]);
+                                  }}
+                                >
+                                  remove
+                                </Button>
+                              </Box>
+                            </Grid2>
+                          ))}
+                        <Grid2 size={{ xs: 12 }}>
+                          <Button variant="contained" component="label">
+                            add product images
+                            <input
+                              type="file"
+                              accept="image/png, image/jpeg, image/jpg"
+                              className="absolute w-full h-full opacity-0 cursor-pointer"
+                              multiple
+                              hidden
+                              onChange={(
+                                event: React.ChangeEvent<HTMLInputElement>
+                              ) => {
+                                if (event.target.files) {
+                                  const filesArray = Array.from(
+                                    event.target.files
+                                  );
+
+                                  filesArray.forEach(file => push(file));
+
+                                  setFieldValue("imgs", [
+                                    ...values.imgs!,
+                                    ...filesArray,
+                                  ]);
+                                }
+                              }}
+                            />
+                          </Button>
+                        </Grid2>
+                      </Grid2>
+                    </>
+                  )}
+                </FieldArray>
+              </Grid2>
+
+              {/* <Grid2 size={{ xs: 12 }}>
                 <Button variant="contained" component="label">
                   upload product images
                   <input
@@ -361,7 +484,7 @@ const AddEditProductPage = () => {
                 {values.imgs && values.imgs.length > 0 && (
                   <Typography>{values.imgs.length} images selected</Typography>
                 )}
-              </Grid2>
+              </Grid2> */}
               <Grid2 size={{ xs: 12 }}>
                 <Button variant="contained" component="label">
                   upload product video
