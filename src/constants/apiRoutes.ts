@@ -69,6 +69,11 @@ const FEE = {
   EDIT_Fee: "/deliveryFee/edit",
 };
 
+const REVIEWS = {
+  GET: "/clientsReviews",
+  EDIT_REVIEWS: "/clientsReviews/edit",
+};
+
 const API_ROUTES = {
   AUTH,
   CONTACT_US,
@@ -81,6 +86,7 @@ const API_ROUTES = {
   LOGO,
   SLIDER,
   FEE,
+  REVIEWS,
 };
 
 export default API_ROUTES;

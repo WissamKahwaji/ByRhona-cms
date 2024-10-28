@@ -7,6 +7,7 @@ import ContactPhoneIcon from "@mui/icons-material/ContactPhone";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import WebStoriesIcon from "@mui/icons-material/WebStories";
 import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
+import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 
 const NAV_LINKS = [
   {
@@ -53,6 +54,11 @@ const NAV_LINKS = [
     name: "fees",
     href: "/fees",
     icon: RequestQuoteIcon,
+  },
+  {
+    name: "happy clients",
+    href: "/happy-clients",
+    icon: InsertEmoticonIcon,
   },
 ];
 

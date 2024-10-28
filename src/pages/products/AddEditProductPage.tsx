@@ -71,6 +71,7 @@ const AddEditProductPage = () => {
     descFr: productInfo?.descFr || "",
     category: productInfo?.category._id || "",
     imgs: productInfo?.imgs || [],
+    videos: productInfo?.videos || [],
     ...(id && {
       price: {
         priceAED: productInfo?.price.priceAED ?? 0,
@@ -91,6 +92,9 @@ const AddEditProductPage = () => {
     }),
     ...(id && {
       removeProductsImages: [],
+    }),
+    ...(id && {
+      removeProductsVideos: [],
     }),
   };
   const handleSubmit = (
@@ -463,29 +467,82 @@ const AddEditProductPage = () => {
                 </FieldArray>
               </Grid2>
 
-              {/* <Grid2 size={{ xs: 12 }}>
-                <Button variant="contained" component="label">
-                  upload product images
-                  <input
-                    type="file"
-                    accept="image/*"
-                    hidden
-                    multiple
-                    onChange={event => {
-                      if (event.currentTarget.files) {
-                        setFieldValue(
-                          "imgs",
-                          Array.from(event.currentTarget.files)
-                        );
-                      }
-                    }}
-                  />
-                </Button>
-                {values.imgs && values.imgs.length > 0 && (
-                  <Typography>{values.imgs.length} images selected</Typography>
-                )}
-              </Grid2> */}
               <Grid2 size={{ xs: 12 }}>
+                <FieldArray name="videos">
+                  {({ push, remove }) => (
+                    <>
+                      <Typography variant="h6">product videos</Typography>
+                      <Grid2 container spacing={2}>
+                        {values.videos &&
+                          values.videos.map((video, index: number) => (
+                            <Grid2 size={{ xs: 12, sm: 6, md: 4 }} key={index}>
+                              <Box sx={{ position: "relative" }}>
+                                <video
+                                  style={{ width: "400px", height: "400px" }}
+                                  controls
+                                  muted
+                                >
+                                  <source
+                                    src={
+                                      typeof video === "string"
+                                        ? video
+                                        : URL.createObjectURL(video)
+                                    }
+                                    type="video/mp4"
+                                  />
+                                  Your browser does not support the video tag.
+                                </video>
+                                <Button
+                                  variant="outlined"
+                                  color="error"
+                                  onClick={() => {
+                                    remove(index);
+                                    setFieldValue("removeProductsVideos", [
+                                      ...values.removeProductsVideos!,
+                                      video,
+                                    ]);
+                                  }}
+                                >
+                                  remove
+                                </Button>
+                              </Box>
+                            </Grid2>
+                          ))}
+                        <Grid2 size={{ xs: 12 }}>
+                          <Button variant="contained" component="label">
+                            add product videos
+                            <input
+                              type="file"
+                              accept="video/mp4"
+                              className="absolute w-full h-full opacity-0 cursor-pointer"
+                              multiple
+                              hidden
+                              onChange={(
+                                event: React.ChangeEvent<HTMLInputElement>
+                              ) => {
+                                if (event.target.files) {
+                                  const filesArray = Array.from(
+                                    event.target.files
+                                  );
+
+                                  filesArray.forEach(file => push(file));
+
+                                  setFieldValue("videos", [
+                                    ...values.videos!,
+                                    ...filesArray,
+                                  ]);
+                                }
+                              }}
+                            />
+                          </Button>
+                        </Grid2>
+                      </Grid2>
+                    </>
+                  )}
+                </FieldArray>
+              </Grid2>
+
+              {/* <Grid2 size={{ xs: 12 }}>
                 <Button variant="contained" component="label">
                   upload product video
                   <input
@@ -508,7 +565,7 @@ const AddEditProductPage = () => {
                     {values.videos.length} videos selected
                   </Typography>
                 )}
-              </Grid2>
+              </Grid2> */}
               <Grid2 size={{ xs: 12 }}>
                 <Stack justifyContent={"center"}>
                   <LoadingButton

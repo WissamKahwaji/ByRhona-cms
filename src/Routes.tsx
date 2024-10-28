@@ -28,6 +28,8 @@ import LogoPage from "./pages/logo/LogoPage";
 import SlidersPage from "./pages/sliders/SlidersPage";
 import EditSliderPage from "./pages/sliders/EditSliderPage";
 import DeliveryFeePage from "./pages/delivery_fee/DeliveryFeePage";
+import HappyClientsPage from "./pages/happy-clients/HappyClientsPage";
+import EditHappyClientsPage from "./pages/happy-clients/EditHappyClientsPage";
 
 const Routes = () => {
   const routes = createBrowserRouter(
@@ -76,6 +78,8 @@ const Routes = () => {
           <Route path="sliders" element={<SlidersPage />} />
           <Route path="sliders/:sliderId/edit" element={<EditSliderPage />} />
           <Route path="fees" element={<DeliveryFeePage />} />
+          <Route path="happy-clients" element={<HappyClientsPage />} />
+          <Route path="happy-clients/edit" element={<EditHappyClientsPage />} />
         </Route>
         <Route path="/sign-in" element={<SignInPage />} />
       </Route>

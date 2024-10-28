@@ -182,6 +182,19 @@ const ContactUs = () => {
                       touched.content?.tiktok && errors.content?.tiktok
                     }
                   />{" "}
+                  <TextField
+                    name="content.snapChat"
+                    fullWidth
+                    label={"snapChat"}
+                    value={values.content?.snapChat}
+                    onChange={handleChange}
+                    error={
+                      touched.content?.snapChat && !!errors.content?.snapChat
+                    }
+                    helperText={
+                      touched.content?.snapChat && errors.content?.snapChat
+                    }
+                  />{" "}
                 </Stack>
               </Grid>
               <Grid size={{ xs: 12 }}>

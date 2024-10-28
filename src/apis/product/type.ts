@@ -29,7 +29,7 @@ export type ProductInputProps = {
   _id?: string;
   img?: File;
   imgs?: string[];
-  videos?: File[];
+  videos?: string[];
   title: string;
   titleFr: string;
   titleAr: string;
@@ -47,5 +47,6 @@ export type ProductInputProps = {
     priceUSD: number;
   };
   removeProductsImages?: string[];
+  removeProductsVideos?: string[];
   productQuantity?: number;
 };

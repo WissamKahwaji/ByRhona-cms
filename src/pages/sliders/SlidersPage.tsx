@@ -43,6 +43,9 @@ const SlidersPage = () => {
       >
         main slider
       </Typography>
+      <span
+        style={{ fontSize: "12px" }}
+      >{`(size should be "W: 1400px * H: 400px")`}</span>
       {sliderInfo && sliderInfo.images.length > 0 ? (
         <>
           <Slider {...sliderSettings}>
@@ -68,6 +71,9 @@ const SlidersPage = () => {
       <Typography variant="h4" sx={{ textAlign: "center", marginTop: "40px" }}>
         videos slider
       </Typography>
+      <span
+        style={{ fontSize: "12px" }}
+      >{`(size should be "W: 1400px * H: 400px")`}</span>
       {sliderInfo && sliderInfo.videos && sliderInfo.videos.length > 0 ? (
         <>
           <Slider {...sliderSettings}>
